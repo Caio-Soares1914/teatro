@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seletor de Assentos</title>
+
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Seletor de Assentos</title>
+    
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                margin: 0;
+                background-color: #f9f9f9;
+            }
+    
+            .seat {
+                width: 30px;
+                height: 30px;
+                margin: 5px;
+                border: 1px solid #ccc;
+                background-color: #f2f2f2;
+                cursor: pointer;
+            }
+    
+            .row {
+                display: flex;
+                align-items: center;
+            }
+    
+            .selected {
+                background-color: #3498db;
+                color: white;
+            }
+    
+            .mezanino {
+                background-color: #f39c12; /* Cor do mezanino */
+            }
+    
+            .mezanino-top {
+                transform: skewY(-10deg); /* Inclinação superior */
+            }
+    
+            .mezanino-bottom {
+                transform: skewY(10deg); /* Inclinação inferior */
+            }
+    
+            h1 {
+                color: black;
+            }
+    
+            h2 {
+                color: #f39c12;
+            }
+        </style>
+</head>
+
+<body>
+    
+    <h1>Selecione um Assento</h1>
+    <h2>MEZANINO</h2>
+    
+    <div id="seat-container">
+        <!-- Assentos serão adicionados aqui via JavaScript -->
+    </div>
+    
+    <script>
+        const seatContainer = document.getElementById('seat-container');
+
+        // Número de fileiras e assentos por fileira
+        const numRows = 13;
+        const numSeatsPerRow = 23;
+        const numPMRSeats = 4;
+        const numObeseSeats = 6;
+        const numWheelchairSeats = 11;
+        const numRowsMezanino = 2; // Número de fileiras no mezanino
+
+        // Função para criar um assento
+        function createSeat(row, seatNumber, isMezanino) {
+            const seatElement = document.createElement('div');
+            seatElement.className = 'seat';
+            seatElement.textContent = `${String.fromCharCode(64 + row)}${seatNumber}`;
+            
+            if (isMezanino) {
+                seatElement.classList.add('mezanino');
+            }
+            
+            seatElement.addEventListener('click', () => toggleSeatSelection(seatElement));
+            return seatElement;
+        }
+
+        // Função para criar uma fileira
+        function createRow(row, isMezanino) {
+            const rowElement = document.createElement('div');
+            rowElement.className = 'row';
+            
+            const numSeats = isMezanino ? numSeatsPerRow : numSeatsPerRow;
+            
+            for (let seatNumber = 1; seatNumber <= numSeats; seatNumber++) {
+                rowElement.appendChild(createSeat(row, seatNumber, isMezanino));
+            }
+            
+            return rowElement;
+        }
+
+        // Função para alternar seleção do assento
+        function toggleSeatSelection(seatElement) {
+            seatElement.classList.toggle('selected');
+        }
+
+        // Criação dos assentos e fileiras do mezanino
+        for (let row = 1; row <= numRowsMezanino; row++) {
+            seatContainer.appendChild(createRow(row, true));
+        }
+
+        // Criação dos assentos e fileiras principais
+        for (let row = 1; row <= numRows; row++) {
+            seatContainer.appendChild(createRow(row, false));
+        }
+    </script>
+      <h1>PALCO</h1>
+</body>
+</html>
